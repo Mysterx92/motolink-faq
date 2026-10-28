@@ -1,0 +1,93 @@
+name: MotoLink Play TEST FAQ clean Android build
+on:
+  push:
+    branches:
+      - ci/motolink-playtest-faq-build-v1
+    paths:
+      - '.github/workflows/play-test-faq-build.yml'
+      - 'ci/patch_play_test_faq.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - name: Checkout isolated build helper branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Checkout MotoLink Play TEST sources (read-only)
+        uses: actions/checkout@v4
+        with:
+          repository: Mysterx1992/MotoLink
+          ref: play/v182-localized-ble-resync-test
+          path: src
+          persist-credentials: false
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install Android API 36 SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          export ANDROID_HOME="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          export ANDROID_SDK_ROOT="$ANDROID_HOME"
+          export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-36" "platform-tools" "build-tools;36.0.0"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Apply isolated FAQ and Privacy source changes
+        run: python3 ci/patch_play_test_faq.py
+      - name: Confirm patch scope and unchanged app package
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd src
+          git diff --name-only | sort > /tmp/motolink_changes.txt
+          diff -u /dev/stdin /tmp/motolink_changes.txt <<'EOF'
+          app/build.gradle.kts
+          app/src/main/java/it/motolink/app/MainActivity.kt
+          app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
+          EOF
+          grep -Fq 'applicationIdSuffix = ".preplaytest2"' app/build.gradle.kts
+          grep -Fq 'versionCode = 37' app/build.gradle.kts
+          grep -Fq 'https://mysterx92.github.io/motolink-faq/' app/src/main/java/it/motolink/app/MainActivity.kt
+          grep -Fq 'https://mysterx92.github.io/motolink-privacy/' app/src/main/java/it/motolink/app/MainActivity.kt
+      - name: Compile standalone Play TEST APK from source
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd src
+          chmod +x ./gradlew
+          ./gradlew :app:assembleDebug --stacktrace
+      - name: Verify installation metadata and Android signatures
+        shell: bash
+        run: |
+          set -euo pipefail
+          BT="${ANDROID_HOME:-/usr/local/lib/android/sdk}/build-tools/36.0.0"
+          APK=src/app/build/outputs/apk/debug/app-debug.apk
+          test -s "$APK"
+          "$BT/apksigner" verify --verbose --print-certs "$APK" > TEST_APKSIGNER.txt
+          "$BT/aapt" dump badging "$APK" > TEST_BADGING.txt
+          grep -Fq "package: name='it.motolink.app.preplaytest2'" TEST_BADGING.txt
+          grep -Fq "versionCode='37'" TEST_BADGING.txt
+          "$BT/zipalign" -c -P 16 -v 4 "$APK" > TEST_ZIPALIGN.txt
+          sha256sum "$APK" > TEST_SHA256.txt
+      - name: Upload test APK and checks (no private keys)
+        uses: actions/upload-artifact@v4
+        with:
+          name: MotoLink_V1_8_2_FAQ_Play_TEST_APK_v37
+          path: |
+            src/app/build/outputs/apk/debug/app-debug.apk
+            TEST_APKSIGNER.txt
+            TEST_BADGING.txt
+            TEST_ZIPALIGN.txt
+            TEST_SHA256.txt
+          if-no-files-found: error
+          retention-days: 14

@@ -1,8 +1,8 @@
-name: MotoLink Play TEST v43 final-user donation popup wording
+name: MotoLink Play TEST v44 Garage duplicate QR tile removal
 on:
   push:
     branches:
-      - ci/motolink-playtest-user-copy-v43
+      - ci/motolink-playtest-garage-v44
     paths:
       - '.github/workflows/play-test-faq-build.yml'
       - 'ci/patch_play_test_apps_v39.py'
@@ -10,6 +10,7 @@ on:
       - 'ci/patch_play_test_donations_v41.py'
       - 'ci/patch_play_test_paypal_direct_v42.py'
       - 'ci/patch_play_test_user_copy_v43.py'
+      - 'ci/patch_play_test_garage_v44.py'
       - 'ci/fetch_play_icons_v39.py'
   workflow_dispatch:
 
@@ -51,13 +52,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m py_compile ci/patch_play_test_faq.py ci/patch_play_test_apps_v39.py ci/patch_play_test_apps_v40.py ci/patch_play_test_donations_v41.py ci/patch_play_test_paypal_direct_v42.py ci/patch_play_test_user_copy_v43.py ci/fetch_play_icons_v39.py
+          python3 -m py_compile ci/patch_play_test_faq.py ci/patch_play_test_apps_v39.py ci/patch_play_test_apps_v40.py ci/patch_play_test_donations_v41.py ci/patch_play_test_paypal_direct_v42.py ci/patch_play_test_user_copy_v43.py ci/patch_play_test_garage_v44.py ci/fetch_play_icons_v39.py
           python3 ci/patch_play_test_faq.py
           python3 ci/patch_play_test_apps_v39.py
           python3 ci/patch_play_test_apps_v40.py
           python3 ci/patch_play_test_donations_v41.py
           python3 ci/patch_play_test_paypal_direct_v42.py
           python3 ci/patch_play_test_user_copy_v43.py
+          python3 ci/patch_play_test_garage_v44.py
       - name: Confirm patch scope and unchanged app package
         shell: bash
         run: |
@@ -72,7 +74,9 @@ jobs:
           app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
           EOF
           grep -Fq 'applicationIdSuffix = ".preplaytest2"' app/build.gradle.kts
-          grep -Fq 'versionCode = 43' app/build.gradle.kts
+          grep -Fq 'versionCode = 44' app/build.gradle.kts
+          grep -Fq 'bikeProfiles.isNotEmpty() && bikeProfiles.size < 3 && y < 1160f' app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
+          grep -Fq 'GuideTarget(58f, 285f, 824f, 295f)' app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
           grep -Fq 'Grazie per far parte di questa avventura!' app/src/main/java/it/motolink/app/MotoLinkLocale.kt
           grep -Fq 'Grazie per aver scelto MotoLink!' app/src/main/java/it/motolink/app/MotoLinkLocale.kt
           grep -Fq 'FF47AQ6KB4QFC' app/src/main/java/it/motolink/app/MainActivity.kt
@@ -121,13 +125,13 @@ jobs:
           "$BT/apksigner" verify --verbose --print-certs "$APK" > TEST_APKSIGNER.txt
           "$BT/aapt" dump badging "$APK" > TEST_BADGING.txt
           grep -Fq "package: name='it.motolink.app.preplaytest2'" TEST_BADGING.txt
-          grep -Fq "versionCode='43'" TEST_BADGING.txt
+          grep -Fq "versionCode='44'" TEST_BADGING.txt
           "$BT/zipalign" -c -P 16 -v 4 "$APK" > TEST_ZIPALIGN.txt
           sha256sum "$APK" > TEST_SHA256.txt
       - name: Upload test APK and checks (no private keys)
         uses: actions/upload-artifact@v4
         with:
-          name: MotoLink_V1_8_2_User_Facing_Support_Copy_Play_TEST_APK_v43
+          name: MotoLink_V1_8_2_Garage_Clean_Play_TEST_APK_v44
           path: |
             src/app/build/outputs/apk/debug/app-debug.apk
             TEST_APKSIGNER.txt

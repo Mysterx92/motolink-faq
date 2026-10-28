@@ -1,0 +1,144 @@
+name: MotoLink Play 1.0 - isolated unsigned AAB preparation
+
+on:
+  push:
+    branches:
+      - ci/motolink-play-release-aab-v1
+    paths:
+      - '.github/workflows/motolink-play-release-aab-v1.yml'
+      - 'ci/patch_play_release_v1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - name: Checkout isolated build workflow
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Checkout frozen MotoLink TEST v47 source (read only)
+        uses: actions/checkout@v4
+        with:
+          repository: Mysterx1992/MotoLink
+          ref: 3ef4efbb0e2e7d12be3676a4131f0595ae5523fb
+          path: src
+          persist-credentials: false
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Android API 36
+        shell: bash
+        run: |
+          set -euo pipefail
+          export ANDROID_HOME="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          export ANDROID_SDK_ROOT="$ANDROID_HOME"
+          export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-36" "platform-tools" "build-tools;36.0.0"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Replay v47 patches and isolate Play release
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile ci/patch_play_test_faq.py \
+            ci/patch_play_test_apps_v39.py ci/patch_play_test_apps_v40.py \
+            ci/patch_play_test_donations_v41.py ci/patch_play_test_paypal_direct_v42.py \
+            ci/patch_play_test_user_copy_v43.py ci/patch_play_test_garage_v44.py \
+            ci/patch_play_test_garage_icon_v45.py ci/patch_play_test_calimoto_v46.py \
+            ci/patch_play_test_official_donate_v47.py ci/patch_play_release_v1.py
+          python3 ci/patch_play_test_faq.py
+          python3 ci/patch_play_test_apps_v39.py
+          python3 ci/patch_play_test_apps_v40.py
+          python3 ci/patch_play_test_donations_v41.py
+          python3 ci/patch_play_test_paypal_direct_v42.py
+          python3 ci/patch_play_test_user_copy_v43.py
+          python3 ci/patch_play_test_garage_v44.py
+          python3 ci/patch_play_test_garage_icon_v45.py
+          python3 ci/patch_play_test_calimoto_v46.py
+          python3 ci/patch_play_test_official_donate_v47.py
+          python3 ci/patch_play_release_v1.py
+
+      - name: Audit exact source file change scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd src
+          git diff --name-only | sort > ../PLAY_MODIFIED_TRACKED_FILES.txt
+          diff -u /dev/stdin ../PLAY_MODIFIED_TRACKED_FILES.txt <<'EOF'
+          app/build.gradle.kts
+          app/src/main/AndroidManifest.xml
+          app/src/main/java/it/motolink/app/MainActivity.kt
+          app/src/main/java/it/motolink/app/MotoLinkLocale.kt
+          app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
+          EOF
+          grep -Fq 'applicationId = "it.motolink.app.play"' app/build.gradle.kts
+          grep -Fq 'versionCode = 1' app/build.gradle.kts
+          grep -Fq 'versionName = "1.0"' app/build.gradle.kts
+          grep -Fq 'targetSdk = 36' app/build.gradle.kts
+          ! grep -Fq 'motolink-test' app/src/main/AndroidManifest.xml
+          grep -Fq 'android:scheme="motolink-play"' app/src/main/AndroidManifest.xml
+          grep -Fq 'https://www.paypal.com/donate/?hosted_button_id=N7BM2VCKWWKNN' app/src/main/java/it/motolink/app/MainActivity.kt
+          grep -Fq 'https://mysterx92.github.io/motolink-privacy/' app/src/main/java/it/motolink/app/MainActivity.kt
+          grep -Fq 'https://mysterx92.github.io/motolink-faq/' app/src/main/java/it/motolink/app/MainActivity.kt
+
+      - name: Gather frozen v47 app catalog artwork
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check Pillow
+          python3 ci/fetch_play_icons_v39.py
+          test "$(find src/app/src/main/res/drawable-nodpi -name 'app_catalog_*.png' | wc -l)" -eq 13
+
+      - name: Compile Play release Android App Bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd src
+          chmod +x gradlew
+          ./gradlew :app:bundleRelease --stacktrace --no-daemon
+
+      - name: Validate unsigned AAB and original v47 multimedia
+        shell: bash
+        run: |
+          set -euo pipefail
+          AAB=src/app/build/outputs/bundle/release/app-release.aab
+          test -s "$AAB"
+          unzip -t "$AAB" | tail -1
+          unzip -Z1 "$AAB" > PLAY_AAB_CONTENTS.txt
+          grep -Fqx 'base/manifest/AndroidManifest.xml' PLAY_AAB_CONTENTS.txt
+          grep -Fqx 'base/dex/classes.dex' PLAY_AAB_CONTENTS.txt
+          grep -Fqx 'base/resources.pb' PLAY_AAB_CONTENTS.txt
+          cd src
+          sha256sum app/src/main/res/raw/motolink_intro.mp4 app/src/main/res/raw/motolink_connect_voice.mp3 \
+            app/src/main/res/drawable-nodpi/ic_launcher_foreground.png \
+            app/src/main/res/mipmap-xxxhdpi/ic_launcher.png > ../PLAY_FROZEN_RESOURCES_SHA256.txt
+          cd ..
+          sha256sum "$AAB" > PLAY_AAB_SHA256.txt
+          test -s PLAY_V1_SOURCE_AUDIT.json
+
+      - name: Upload isolated unsigned bundle and audits
+        uses: actions/upload-artifact@v4
+        with:
+          name: MotoLink_PLAY_1_0_UNSIGNED_AAB_SOURCE_VALIDATED
+          path: |
+            src/app/build/outputs/bundle/release/app-release.aab
+            PLAY_V1_SOURCE_AUDIT.json
+            PLAY_MODIFIED_TRACKED_FILES.txt
+            PLAY_AAB_CONTENTS.txt
+            PLAY_AAB_SHA256.txt
+            PLAY_FROZEN_RESOURCES_SHA256.txt
+            PLAY_ICON_AUDIT.json
+          if-no-files-found: error
+          retention-days: 30

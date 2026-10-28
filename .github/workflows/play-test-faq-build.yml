@@ -76,7 +76,7 @@ jobs:
           grep -Fq 'stickerMailBody()' app/src/main/java/it/motolink/app/MotoLinkLocale.kt
           grep -Fq 'v41_support_prompt_once' app/src/main/java/it/motolink/app/MainActivity.kt
           grep -Fq 'showPayPalReturnUnverified()' app/src/main/java/it/motolink/app/MainActivity.kt
-          grep -Fq 'sostieni-test/' app/src/main/java/it/motolink/app/MainActivity.kt
+          grep -Fq 'https://www.paypal.com/ncp/payment/FF47AQ6KB4QFC' app/src/main/java/it/motolink/app/MainActivity.kt
           grep -Fq 'motolink-test' app/src/main/AndroidManifest.xml
           grep -Fq 'fun donationInviteTitle()' app/src/main/java/it/motolink/app/MotoLinkLocale.kt
           grep -Fq 'DonationReturnActivity' app/src/main/java/it/motolink/app/DonationReturnActivity.kt

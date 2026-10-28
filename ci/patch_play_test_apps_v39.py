@@ -149,7 +149,7 @@ u=one(u,"    private fun buildCredits() {", "        private data class AppCatal
                     })
                 }
             }
-            scroll.addView(column, ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT))
+            scroll.addView(column, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
             bodyHost.addView(scroll, lp(58f, 210f, 824f, 1300f))
         }
 

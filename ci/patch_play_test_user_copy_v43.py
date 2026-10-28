@@ -37,7 +37,7 @@ if i<0 or j<i: raise AssertionError("invite boundaries")
 s=replace_one(s,s[i:j],invite+"\n","invite popup only")
 
 start_decline='    fun donationDeclineBody(): String = when(language()) {'
-end_decline='    fun donationReturnTitle(): String = when(language()) {'
+end_decline='    fun donationThanksTitle(): String = when(language()) {'
 i,j=s.index(start_decline),s.index(end_decline)
 if i<0 or j<i: raise AssertionError("decline boundaries")
 s=replace_one(s,s[i:j],decline+"\n","decline popup only")

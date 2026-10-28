@@ -1,0 +1,33 @@
+name: Export signing CLI for locally held MotoLink TEST key
+on:
+  push:
+    branches:
+      - ci/motolink-playtest-faq-build-v1
+    paths:
+      - '.github/workflows/export-android-sign-tool.yml'
+permissions:
+  contents: read
+jobs:
+  export-tools:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Find Android SDK signing JAR
+        shell: bash
+        run: |
+          set -euo pipefail
+          export ANDROID_HOME="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
+          sdkmanager "build-tools;36.0.0"
+          test -s "$ANDROID_HOME/build-tools/36.0.0/lib/apksigner.jar"
+          cp "$ANDROID_HOME/build-tools/36.0.0/lib/apksigner.jar" ./apksigner.jar
+          sha256sum apksigner.jar > APKSIGNER_SHA256.txt
+      - name: Upload signing TOOL only (no keystores or passwords)
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apksigner-tool-v36
+          path: |
+            apksigner.jar
+            APKSIGNER_SHA256.txt
+          if-no-files-found: error
+          retention-days: 3

@@ -79,11 +79,6 @@
     .return-btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px #67e25345}
     .return-btn svg{flex:0 0 auto;width:20px;height:20px}
     .help{color:var(--muted);font-size:13px;margin:0 auto;max-width:425px}
-    .disclaimer{
-      margin:25px 0 0;padding:14px 16px;border-radius:14px;
-      background:#112018;border:1px solid #36563c;color:#b9cbbb;
-      font-size:12.5px;line-height:1.5;text-align:left
-    }
     .footer{color:#879c8c;font-size:12px;margin:22px 0 0}
     .footer a{color:#a8dca3;text-decoration:none}
     .footer a:hover{text-decoration:underline}
@@ -115,19 +110,18 @@
       <span id="returnText">TORNA A MOTOLINK</span>
     </a>
     <p class="help" id="hint">Nell'app, se desideri, potrai richiedere l'adesivo MotoLink SOSTENITORE.</p>
-    <p class="disclaimer" id="note">Il ritorno a questa pagina non certifica il pagamento. Le donazioni sono verificate manualmente prima dell'eventuale spedizione dell'adesivo.</p>
     <p class="footer">MotoLink · <a href="../">FAQ</a> · <span id="privacy">Questa pagina non raccoglie dati di pagamento.</span></p>
   </main>
   <script>
     (() => {
       'use strict';
       const dict = {
-        it: ["UN GESTO CHE CONTA","GRAZIE PER LA DONAZIONE! 💚","Grazie per aver scelto di sostenere MotoLink. Il tuo gesto dà forza a questo progetto, nato dalla passione per le moto.","MotoLink continuerà a essere gratuita, senza pubblicità e senza abbonamenti.","TORNA A MOTOLINK","Nell'app, se desideri, potrai richiedere l'adesivo MotoLink SOSTENITORE.","Il ritorno a questa pagina non certifica il pagamento. Le donazioni sono verificate manualmente prima dell'eventuale spedizione dell'adesivo.","Questa pagina non raccoglie dati di pagamento."],
-        en: ["YOUR SUPPORT MATTERS","THANK YOU FOR YOUR DONATION! 💚","Thank you for choosing to support MotoLink. Your kindness helps this motorcycle passion project grow.","MotoLink will remain free, with no ads and no subscriptions.","RETURN TO MOTOLINK","If you wish, you can request a MotoLink SOSTENITORE sticker in the app.","Returning to this page does not confirm a payment. Donations are verified manually before any sticker shipment.","This page does not collect payment information."],
-        ru: ["ВАША ПОДДЕРЖКА ВАЖНА","СПАСИБО ЗА ПОЖЕРТВОВАНИЕ! 💚","Спасибо, что решили поддержать MotoLink. Ваша помощь развивает проект, созданный из любви к мотоциклам.","MotoLink останется бесплатным, без рекламы и подписок.","ВЕРНУТЬСЯ В MOTOLINK","При желании в приложении можно запросить наклейку MotoLink SOSTENITORE.","Возврат на эту страницу не подтверждает оплату. Перед отправкой наклейки пожертвование проверяется вручную.","Эта страница не собирает платёжные данные."],
-        zh: ["感谢你的支持","感谢你的捐赠！💚","感谢你选择支持 MotoLink。你的心意帮助这个源于摩托车热爱的项目继续成长。","MotoLink 将保持免费，无广告、无订阅。","返回 MOTOLINK","如有需要，可在应用内申请 MotoLink SOSTENITORE 贴纸。","返回此页面不代表付款已经完成。寄送贴纸前将人工核实捐赠。","本页面不收集支付信息。"]
+        it: ["UN GESTO CHE CONTA","GRAZIE PER LA DONAZIONE! 💚","Grazie per aver scelto di sostenere MotoLink. Il tuo gesto dà forza a questo progetto, nato dalla passione per le moto.","MotoLink continuerà a essere gratuita, senza pubblicità e senza abbonamenti.","TORNA A MOTOLINK","Nell'app, se desideri, potrai richiedere l'adesivo MotoLink SOSTENITORE.","Questa pagina non raccoglie dati di pagamento."],
+        en: ["YOUR SUPPORT MATTERS","THANK YOU FOR YOUR DONATION! 💚","Thank you for choosing to support MotoLink. Your kindness helps this motorcycle passion project grow.","MotoLink will remain free, with no ads and no subscriptions.","RETURN TO MOTOLINK","If you wish, you can request a MotoLink SOSTENITORE sticker in the app.","This page does not collect payment information."],
+        ru: ["ВАША ПОДДЕРЖКА ВАЖНА","СПАСИБО ЗА ПОЖЕРТВОВАНИЕ! 💚","Спасибо, что решили поддержать MotoLink. Ваша помощь развивает проект, созданный из любви к мотоциклам.","MotoLink останется бесплатным, без рекламы и подписок.","ВЕРНУТЬСЯ В MOTOLINK","При желании в приложении можно запросить наклейку MotoLink SOSTENITORE.","Эта страница не собирает платёжные данные."],
+        zh: ["感谢你的支持","感谢你的捐赠！💚","感谢你选择支持 MotoLink。你的心意帮助这个源于摩托车热爱的项目继续成长。","MotoLink 将保持免费，无广告、无订阅。","返回 MOTOLINK","如有需要，可在应用内申请 MotoLink SOSTENITORE 贴纸。","本页面不收集支付信息。"]
       };
-      const ids = ["eyebrow","title","body","support","returnText","hint","note","privacy"];
+      const ids = ["eyebrow","title","body","support","returnText","hint","privacy"];
       function render(lang){
         if(!Object.prototype.hasOwnProperty.call(dict,lang)) lang="en";
         document.documentElement.lang=lang;

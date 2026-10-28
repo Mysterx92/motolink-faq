@@ -1,8 +1,8 @@
-name: MotoLink Play TEST v45 Garage plus icon corrected
+name: MotoLink Play TEST v46 calimoto in Navigation
 on:
   push:
     branches:
-      - ci/motolink-playtest-garage-icon-v45
+      - ci/motolink-playtest-calimoto-v46
     paths:
       - '.github/workflows/play-test-faq-build.yml'
       - 'ci/patch_play_test_apps_v39.py'
@@ -12,6 +12,7 @@ on:
       - 'ci/patch_play_test_user_copy_v43.py'
       - 'ci/patch_play_test_garage_v44.py'
       - 'ci/patch_play_test_garage_icon_v45.py'
+      - 'ci/patch_play_test_calimoto_v46.py'
       - 'ci/fetch_play_icons_v39.py'
   workflow_dispatch:
 
@@ -53,7 +54,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m py_compile ci/patch_play_test_faq.py ci/patch_play_test_apps_v39.py ci/patch_play_test_apps_v40.py ci/patch_play_test_donations_v41.py ci/patch_play_test_paypal_direct_v42.py ci/patch_play_test_user_copy_v43.py ci/patch_play_test_garage_v44.py ci/patch_play_test_garage_icon_v45.py ci/fetch_play_icons_v39.py
+          python3 -m py_compile ci/patch_play_test_faq.py ci/patch_play_test_apps_v39.py ci/patch_play_test_apps_v40.py ci/patch_play_test_donations_v41.py ci/patch_play_test_paypal_direct_v42.py ci/patch_play_test_user_copy_v43.py ci/patch_play_test_garage_v44.py ci/patch_play_test_garage_icon_v45.py ci/patch_play_test_calimoto_v46.py ci/fetch_play_icons_v39.py
           python3 ci/patch_play_test_faq.py
           python3 ci/patch_play_test_apps_v39.py
           python3 ci/patch_play_test_apps_v40.py
@@ -62,6 +63,7 @@ jobs:
           python3 ci/patch_play_test_user_copy_v43.py
           python3 ci/patch_play_test_garage_v44.py
           python3 ci/patch_play_test_garage_icon_v45.py
+          python3 ci/patch_play_test_calimoto_v46.py
       - name: Confirm patch scope and unchanged app package
         shell: bash
         run: |
@@ -76,7 +78,10 @@ jobs:
           app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
           EOF
           grep -Fq 'applicationIdSuffix = ".preplaytest2"' app/build.gradle.kts
-          grep -Fq 'versionCode = 45' app/build.gradle.kts
+          grep -Fq 'versionCode = 46' app/build.gradle.kts
+          grep -Fq 'AppCatalogEntry("calimoto", "com.calimoto.calimoto", R.drawable.app_catalog_calimoto)' app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
+          grep -Fq '"com.kurviger.app", "com.calimoto.calimoto"' app/src/main/java/it/motolink/app/MainActivity.kt
+          grep -Fq '"com.calimoto.calimoto" -> 12' app/src/main/java/it/motolink/app/MotoLinkLocale.kt
           grep -Fq 'row.addView(icon(IconKind.PLUS, GREEN), LinearLayout.LayoutParams(pxX(112f), pxH(112f)))' app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
           grep -Fq 'text("Aggiungi un altro profilo", 30f, Color.WHITE, true)' app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
           grep -Fq 'bikeProfiles.isNotEmpty() && bikeProfiles.size < 3 && y < 1160f' app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
@@ -111,7 +116,14 @@ jobs:
           set -euo pipefail
           python3 -m pip install --disable-pip-version-check Pillow
           python3 ci/fetch_play_icons_v39.py
-          test "$(find src/app/src/main/res/drawable-nodpi -name 'app_catalog_*.png' | wc -l)" -eq 12
+          test "$(find src/app/src/main/res/drawable-nodpi -name 'app_catalog_*.png' | wc -l)" -eq 13
+          python3 - <<'PY'
+          import json
+          audit=json.load(open("PLAY_ICON_AUDIT.json",encoding="utf-8"))
+          assert len(audit)==13 and sum(a["package"]=="com.calimoto.calimoto" for a in audit)==1
+          assert __import__("pathlib").Path("src/app/src/main/res/drawable-nodpi/app_catalog_calimoto.png").stat().st_size>300
+          print("CALIMOTO_ICON_AUDIT_PASS", next(a for a in audit if a["package"]=="com.calimoto.calimoto"))
+          PY
       - name: Compile standalone Play TEST APK from source
         shell: bash
         run: |
@@ -129,13 +141,13 @@ jobs:
           "$BT/apksigner" verify --verbose --print-certs "$APK" > TEST_APKSIGNER.txt
           "$BT/aapt" dump badging "$APK" > TEST_BADGING.txt
           grep -Fq "package: name='it.motolink.app.preplaytest2'" TEST_BADGING.txt
-          grep -Fq "versionCode='45'" TEST_BADGING.txt
+          grep -Fq "versionCode='46'" TEST_BADGING.txt
           "$BT/zipalign" -c -P 16 -v 4 "$APK" > TEST_ZIPALIGN.txt
           sha256sum "$APK" > TEST_SHA256.txt
       - name: Upload test APK and checks (no private keys)
         uses: actions/upload-artifact@v4
         with:
-          name: MotoLink_V1_8_2_Garage_Plus_Icon_Play_TEST_APK_v45
+          name: MotoLink_V1_8_2_Calimoto_Navigation_Play_TEST_APK_v46
           path: |
             src/app/build/outputs/apk/debug/app-debug.apk
             TEST_APKSIGNER.txt

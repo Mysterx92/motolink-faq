@@ -1,4 +1,4 @@
-name: MotoLink Play TEST FAQ clean Android build
+name: MotoLink Play TEST v38 FAQ Privacy multilingual initial guide
 on:
   push:
     branches:
@@ -53,12 +53,17 @@ jobs:
           diff -u /dev/stdin /tmp/motolink_changes.txt <<'EOF'
           app/build.gradle.kts
           app/src/main/java/it/motolink/app/MainActivity.kt
+          app/src/main/java/it/motolink/app/MotoLinkLocale.kt
           app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
           EOF
           grep -Fq 'applicationIdSuffix = ".preplaytest2"' app/build.gradle.kts
-          grep -Fq 'versionCode = 37' app/build.gradle.kts
+          grep -Fq 'versionCode = 38' app/build.gradle.kts
           grep -Fq 'https://mysterx92.github.io/motolink-faq/' app/src/main/java/it/motolink/app/MainActivity.kt
           grep -Fq 'https://mysterx92.github.io/motolink-privacy/' app/src/main/java/it/motolink/app/MainActivity.kt
+          grep -Fq 'GuideTarget(594f, 198f, 247f, 78f)' app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
+          grep -Fq 'guideHelpBody(false)' app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
+          grep -Fq 'fun guideHelpTitle(faq: Boolean)' app/src/main/java/it/motolink/app/MotoLinkLocale.kt
+          grep -Fq 'fun guideHelpBody(faq: Boolean)' app/src/main/java/it/motolink/app/MotoLinkLocale.kt
       - name: Compile standalone Play TEST APK from source
         shell: bash
         run: |
@@ -76,13 +81,13 @@ jobs:
           "$BT/apksigner" verify --verbose --print-certs "$APK" > TEST_APKSIGNER.txt
           "$BT/aapt" dump badging "$APK" > TEST_BADGING.txt
           grep -Fq "package: name='it.motolink.app.preplaytest2'" TEST_BADGING.txt
-          grep -Fq "versionCode='37'" TEST_BADGING.txt
+          grep -Fq "versionCode='38'" TEST_BADGING.txt
           "$BT/zipalign" -c -P 16 -v 4 "$APK" > TEST_ZIPALIGN.txt
           sha256sum "$APK" > TEST_SHA256.txt
       - name: Upload test APK and checks (no private keys)
         uses: actions/upload-artifact@v4
         with:
-          name: MotoLink_V1_8_2_FAQ_Play_TEST_APK_v37
+          name: MotoLink_V1_8_2_FAQ_PRIVACY_Guide_Play_TEST_APK_v38
           path: |
             src/app/build/outputs/apk/debug/app-debug.apk
             TEST_APKSIGNER.txt

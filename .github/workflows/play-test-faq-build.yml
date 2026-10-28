@@ -1,14 +1,15 @@
-name: MotoLink Play TEST v42 PayPal direct and sticker request
+name: MotoLink Play TEST v43 final-user donation popup wording
 on:
   push:
     branches:
-      - ci/motolink-playtest-paypal-direct-v42
+      - ci/motolink-playtest-user-copy-v43
     paths:
       - '.github/workflows/play-test-faq-build.yml'
       - 'ci/patch_play_test_apps_v39.py'
       - 'ci/patch_play_test_apps_v40.py'
       - 'ci/patch_play_test_donations_v41.py'
       - 'ci/patch_play_test_paypal_direct_v42.py'
+      - 'ci/patch_play_test_user_copy_v43.py'
       - 'ci/fetch_play_icons_v39.py'
   workflow_dispatch:
 
@@ -50,12 +51,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m py_compile ci/patch_play_test_faq.py ci/patch_play_test_apps_v39.py ci/patch_play_test_apps_v40.py ci/patch_play_test_donations_v41.py ci/patch_play_test_paypal_direct_v42.py ci/fetch_play_icons_v39.py
+          python3 -m py_compile ci/patch_play_test_faq.py ci/patch_play_test_apps_v39.py ci/patch_play_test_apps_v40.py ci/patch_play_test_donations_v41.py ci/patch_play_test_paypal_direct_v42.py ci/patch_play_test_user_copy_v43.py ci/fetch_play_icons_v39.py
           python3 ci/patch_play_test_faq.py
           python3 ci/patch_play_test_apps_v39.py
           python3 ci/patch_play_test_apps_v40.py
           python3 ci/patch_play_test_donations_v41.py
           python3 ci/patch_play_test_paypal_direct_v42.py
+          python3 ci/patch_play_test_user_copy_v43.py
       - name: Confirm patch scope and unchanged app package
         shell: bash
         run: |
@@ -70,7 +72,9 @@ jobs:
           app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
           EOF
           grep -Fq 'applicationIdSuffix = ".preplaytest2"' app/build.gradle.kts
-          grep -Fq 'versionCode = 42' app/build.gradle.kts
+          grep -Fq 'versionCode = 43' app/build.gradle.kts
+          grep -Fq 'Grazie per far parte di questa avventura!' app/src/main/java/it/motolink/app/MotoLinkLocale.kt
+          grep -Fq 'Grazie per aver scelto MotoLink!' app/src/main/java/it/motolink/app/MotoLinkLocale.kt
           grep -Fq 'FF47AQ6KB4QFC' app/src/main/java/it/motolink/app/MainActivity.kt
           grep -Fq 'openStickerRequestEmail()' app/src/main/java/it/motolink/app/MainActivity.kt
           grep -Fq 'stickerMailBody()' app/src/main/java/it/motolink/app/MotoLinkLocale.kt
@@ -117,13 +121,13 @@ jobs:
           "$BT/apksigner" verify --verbose --print-certs "$APK" > TEST_APKSIGNER.txt
           "$BT/aapt" dump badging "$APK" > TEST_BADGING.txt
           grep -Fq "package: name='it.motolink.app.preplaytest2'" TEST_BADGING.txt
-          grep -Fq "versionCode='42'" TEST_BADGING.txt
+          grep -Fq "versionCode='43'" TEST_BADGING.txt
           "$BT/zipalign" -c -P 16 -v 4 "$APK" > TEST_ZIPALIGN.txt
           sha256sum "$APK" > TEST_SHA256.txt
       - name: Upload test APK and checks (no private keys)
         uses: actions/upload-artifact@v4
         with:
-          name: MotoLink_V1_8_2_PayPal_Direct_Sticker_Play_TEST_APK_v42
+          name: MotoLink_V1_8_2_User_Facing_Support_Copy_Play_TEST_APK_v43
           path: |
             src/app/build/outputs/apk/debug/app-debug.apk
             TEST_APKSIGNER.txt

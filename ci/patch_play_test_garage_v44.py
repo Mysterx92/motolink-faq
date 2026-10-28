@@ -54,6 +54,33 @@ u = once(
     "guide text for add-bike action",
 )
 
+# With one or two saved bikes, the add tile has a neutral label because its
+# action offers both QR pairing and local profile creation.
+u = once(
+    u,
+    'text("Aggiungi con QR", 30f, Color.WHITE, true)',
+    'text("Aggiungi un altro profilo +", 30f, Color.WHITE, true)',
+    "existing-profile add tile title",
+)
+u = once(
+    u,
+    'text("Per moto compatibili", 22f, 0xFFB7B7B7.toInt(), false)',
+    'text("Con QR o profilo locale", 22f, 0xFFB7B7B7.toInt(), false)',
+    "existing-profile add tile subtitle",
+)
+u = once(
+    u,
+    'contentDescription = MotoLinkLocale.t(context, "Aggiungi una moto con QR")',
+    'contentDescription = MotoLinkLocale.t(context, "Aggiungi un altro profilo moto")',
+    "accessible add tile description",
+)
+u = once(
+    u,
+    'usa Aggiungi con QR per aggiungerne un\'altra.',
+    'usa Aggiungi un altro profilo + per aggiungerne un\'altra.',
+    "guide existing profiles wording",
+)
+
 b = once(b, "versionCode = 43", "versionCode = 44", "versionCode")
 b = once(
     b,
@@ -67,6 +94,7 @@ assert "bodyHost.addView(emptyGarageCard(), lp(58f, y, 824f, 295f))" in u
 assert "val add = addQrCard()" in u
 assert "bikeProfiles.isNotEmpty() && bikeProfiles.size < 3 && y < 1160f" in u
 assert "GuideTarget(58f, 285f, 824f, 295f)" in u
+assert "Aggiungi un altro profilo +" in u
 assert "versionCode = 44" in b
 ui.write_text(u, encoding="utf-8")
 gradle.write_text(b, encoding="utf-8")

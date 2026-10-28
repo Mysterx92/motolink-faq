@@ -105,10 +105,10 @@ extra='''    fun donationThanksTitle(): String = when(language()) {
         else -> "MotoLink Sostenitore sticker request"
     }
     fun stickerMailBody(): String = when(language()) {
-        "it" -> "Buongiorno!\\\\nHo effettuato una donazione per sostenere il progetto MotoLink e vorrei richiedere, se disponibile, l'adesivo MotoLink SOSTENITORE da 6 cm.\\\\n\\\\nDati per la spedizione (compilare solo se si desidera la spedizione):\\\\nNome:\\\\nCognome:\\\\nIndirizzo completo (abitazione oppure punto di ritiro):\\\\nRiferimento transazione PayPal (facoltativo, NON inserire credenziali):\\\\n\\\\nGrazie e complimenti per il progetto MotoLink!"
-        "ru" -> "Здравствуйте!\\\\nЯ поддержал(а) MotoLink пожертвованием и хочу попросить наклейку MotoLink SOSTENITORE 6 см, если она доступна.\\\\n\\\\nИмя:\\\\nФамилия:\\\\nАдрес доставки / пункт выдачи:\\\\nНомер транзакции PayPal (необязательно; без паролей):\\\\n\\\\nСпасибо!"
-        "zh" -> "你好！\\\\n我已捐赠支持 MotoLink，希望申请一张 6 厘米 MotoLink SOSTENITORE 贴纸（如有库存）。\\\\n\\\\n姓名：\\\\n收件地址或自提点：\\\\nPayPal 交易编号（选填，请勿填写密码）：\\\\n\\\\n谢谢！"
-        else -> "Hello!\\\\nI made a donation to support MotoLink and would like to request the 6 cm MotoLink SOSTENITORE sticker, if available.\\\\n\\\\nFirst name:\\\\nLast name:\\\\nShipping address or pickup point:\\\\nPayPal transaction reference (optional; never share passwords):\\\\n\\\\nThank you!"
+        "it" -> "Buongiorno!\\nHo effettuato una donazione per sostenere il progetto MotoLink e vorrei richiedere, se disponibile, l'adesivo MotoLink SOSTENITORE da 6 cm.\\n\\nDati per la spedizione (compilare solo se si desidera la spedizione):\\nNome:\\nCognome:\\nIndirizzo completo (abitazione oppure punto di ritiro):\\nRiferimento transazione PayPal (facoltativo, NON inserire credenziali):\\n\\nGrazie e complimenti per il progetto MotoLink!"
+        "ru" -> "Здравствуйте!\\nЯ поддержал(а) MotoLink пожертвованием и хочу попросить наклейку MotoLink SOSTENITORE 6 см, если она доступна.\\n\\nИмя:\\nФамилия:\\nАдрес доставки / пункт выдачи:\\nНомер транзакции PayPal (необязательно; без паролей):\\n\\nСпасибо!"
+        "zh" -> "你好！\\n我已捐赠支持 MotoLink，希望申请一张 6 厘米 MotoLink SOSTENITORE 贴纸（如有库存）。\\n\\n姓名：\\n收件地址或自提点：\\nPayPal 交易编号（选填，请勿填写密码）：\\n\\n谢谢！"
+        else -> "Hello!\\nI made a donation to support MotoLink and would like to request the 6 cm MotoLink SOSTENITORE sticker, if available.\\n\\nFirst name:\\nLast name:\\nShipping address or pickup point:\\nPayPal transaction reference (optional; never share passwords):\\n\\nThank you!"
     }
 
     fun stickerMailErrorTitle(): String = when(language()) {

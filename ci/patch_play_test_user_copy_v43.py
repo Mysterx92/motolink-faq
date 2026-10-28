@@ -51,7 +51,7 @@ for func,stop in [(start_invite,end_invite),(start_decline,end_decline)]:
     assert "TEST v" not in body and "ТЕСТ v" not in body and "测试版" not in body
     assert all(x in body for x in ['"it"', '"ru"', '"zh"', 'else'])
 assert "versionCode = 43" in b
-assert 'fun donationThanksBody()' in s and 'fun stickerMailBody()' in s
+assert 'fun donationThanksBody():' in s and 'fun stickerMailBody():' in s
 source.write_text(s,encoding="utf-8")
 gradle.write_text(b,encoding="utf-8")
 print("V43_PATCH_PASS: ONLY invitation/decline copy IT-EN-RU-ZH and version metadata updated")

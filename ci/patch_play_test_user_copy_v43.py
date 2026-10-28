@@ -6,8 +6,10 @@ from pathlib import Path
 
 source=Path("src/app/src/main/java/it/motolink/app/MotoLinkLocale.kt")
 gradle=Path("src/app/build.gradle.kts")
+main=Path("src/app/src/main/java/it/motolink/app/MainActivity.kt")
 s=source.read_text(encoding="utf-8")
 b=gradle.read_text(encoding="utf-8")
+m=main.read_text(encoding="utf-8")
 
 def replace_one(original, before, after, label):
     count=original.count(before)
@@ -41,6 +43,12 @@ end_decline='    fun donationThanksTitle(): String = when(language()) {'
 i,j=s.index(start_decline),s.index(end_decline)
 if i<0 or j<i: raise AssertionError("decline boundaries")
 s=replace_one(s,s[i:j],decline+"\n","decline popup only")
+
+# V43 TEST only: the refreshed invitation is shown once after updating from V42.
+m=replace_one(m,'private const val PREF_SUPPORT_V41_ALREADY_SHOWN = "v41_support_prompt_once"',
+              'private const val PREF_SUPPORT_V41_ALREADY_SHOWN = "v43_support_prompt_once"',
+              "one-shot test refresh key")
+main.write_text(m,encoding="utf-8")
 
 b=replace_one(b,"versionCode = 42","versionCode = 43","versionCode")
 b=replace_one(b,'versionName = "1.8.2-paypal-direct-sticker-test"',

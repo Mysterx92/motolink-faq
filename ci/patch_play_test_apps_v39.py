@@ -30,7 +30,7 @@ u=one(u, "                IconKind.STAR -> drawStar(c,cx,cy,s*.34f,s*.15f)",
                         }
                     }
                 }''',"Native APP 2x2 icon")
-u=one(u,"    private fun buildCredits() {", "        private data class AppCatalogEntry(val name: String, val packageId: String, val iconId: Int)
+u=one(u,"    private fun buildCredits() {", '''        private data class AppCatalogEntry(val name: String, val packageId: String, val iconId: Int)
 
         private val appCatalogEntries: List<List<AppCatalogEntry>> = listOf(
             listOf(AppCatalogEntry("Prezzi Benzina!", "org.vernazza.androidfuel", R.drawable.app_catalog_prezzi_benzina)),
@@ -153,7 +153,8 @@ u=one(u,"    private fun buildCredits() {", "        private data class AppCatal
             bodyHost.addView(scroll, lp(58f, 210f, 824f, 1300f))
         }
 
-\n    private fun buildCredits() {","Native catalog")
+
+    private fun buildCredits() {''',"Native catalog")
 # The tour is contiguous and non-invasive: original FAQ and Privacy steps remain.
 guide_steps='''        GuideStep(
             Page.APPS,
@@ -215,7 +216,7 @@ m=one(m,"    private fun openFaqPage() {",'''    private fun openRecommendedPlay
 
     private fun openFaqPage() {''',"Play store direct detail")
 l=locale.read_text(encoding="utf-8")
-locale_helpers="    fun appCatalogCategory(index: Int): String {
+locale_helpers='''    fun appCatalogCategory(index: Int): String {
         val labels = when(language()) {
             "it" -> listOf("Stazioni di servizio", "Ristoranti", "Navigazione moto", "Tracciamento e prestazioni", "Meteo", "Viabilità", "Sicurezza", "Manutenzione moto", "Community e raduni")
             "ru" -> listOf("Заправочные станции", "Рестораны", "Мотонавигация", "Треки и показатели поездки", "Погода", "Дорожная обстановка", "Безопасность", "Обслуживание мотоцикла", "Мотосообщество и встречи")
@@ -253,7 +254,7 @@ locale_helpers="    fun appCatalogCategory(index: Int): String {
         else -> if(categories) "Tap APP in the bottom bar. Open a category with its arrow to find fuel stations, restaurants, motorcycle navigation and other useful tools. Each category contains only one or two carefully selected apps." else "Tap an app logo or name to open its Google Play listing directly. Installation is optional and handled by Google Play. Optional premium features belong to third-party apps; MotoLink TFT compatibility is not implied."
     }
 
-"
+'''
 l=one(l,'    fun releaseNotes182(): String = when (language()) {',
           locale_helpers+'    fun releaseNotes182(): String = when (language()) {',"Locale 4 languages")
 b=gradle.read_text(encoding="utf-8")

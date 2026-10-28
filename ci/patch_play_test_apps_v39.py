@@ -58,7 +58,7 @@ u=one(u,"    private fun buildCredits() {", "        private data class AppCatal
         private fun buildAppCatalog() {
             bodyHost.addView(sectionTitle("APP"), lp(58f, 47f, 824f, 135f))
             val scroll = ScrollView(context).apply {
-                fillViewport = false
+                isFillViewport = false
                 isVerticalScrollBarEnabled = true
                 overScrollMode = View.OVER_SCROLL_IF_CONTENT_SCROLLS
             }
@@ -107,9 +107,8 @@ u=one(u,"    private fun buildCredits() {", "        private data class AppCatal
                         rebuild()
                     }
                 }
-                backRow.addView(icon(IconKind.CHEVRON, GREEN), LinearLayout.LayoutParams(pxX(60f), pxH(60f)).apply {
-                    rotation = 180f
-                })
+                backRow.addView(icon(IconKind.CHEVRON, GREEN).apply { rotation = 180f },
+                    LinearLayout.LayoutParams(pxX(60f), pxH(60f)))
                 backRow.addView(text(MotoLinkLocale.appCatalogBack(), 24f, GREEN, true).apply {
                     gravity = Gravity.CENTER_VERTICAL
                 }, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1f))

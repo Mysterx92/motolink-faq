@@ -1,11 +1,12 @@
-name: MotoLink Play TEST v39 APP categories and multilingual guide
+name: MotoLink Play TEST v40 APP descriptions and Android Back navigation
 on:
   push:
     branches:
-      - ci/motolink-playtest-apps-v39
+      - ci/motolink-playtest-apps-v40
     paths:
       - '.github/workflows/play-test-faq-build.yml'
       - 'ci/patch_play_test_apps_v39.py'
+      - 'ci/patch_play_test_apps_v40.py'
       - 'ci/fetch_play_icons_v39.py'
   workflow_dispatch:
 
@@ -47,9 +48,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m py_compile ci/patch_play_test_faq.py ci/patch_play_test_apps_v39.py ci/fetch_play_icons_v39.py
+          python3 -m py_compile ci/patch_play_test_faq.py ci/patch_play_test_apps_v39.py ci/patch_play_test_apps_v40.py ci/fetch_play_icons_v39.py
           python3 ci/patch_play_test_faq.py
           python3 ci/patch_play_test_apps_v39.py
+          python3 ci/patch_play_test_apps_v40.py
       - name: Confirm patch scope and unchanged app package
         shell: bash
         run: |
@@ -58,13 +60,19 @@ jobs:
           git diff --name-only | sort > /tmp/motolink_changes.txt
           diff -u /dev/stdin /tmp/motolink_changes.txt <<'EOF'
           app/build.gradle.kts
+          app/src/main/AndroidManifest.xml
           app/src/main/java/it/motolink/app/MainActivity.kt
           app/src/main/java/it/motolink/app/MotoLinkLocale.kt
           app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
           EOF
           grep -Fq 'applicationIdSuffix = ".preplaytest2"' app/build.gradle.kts
-          grep -Fq 'versionCode = 39' app/build.gradle.kts
+          grep -Fq 'versionCode = 40' app/build.gradle.kts
           grep -Fq 'Page.APPS' app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
+          grep -Fq 'fun navigateSystemBack()' app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
+          grep -Fq 'appCatalogDescription(app.packageId)' app/src/main/java/it/motolink/app/TrofeoDashboardView.kt
+          grep -Fq 'fun appCatalogDescription(packageName: String)' app/src/main/java/it/motolink/app/MotoLinkLocale.kt
+          grep -Fq 'onBackInvokedDispatcher.registerOnBackInvokedCallback(' app/src/main/java/it/motolink/app/MainActivity.kt
+          grep -Fq 'enableOnBackInvokedCallback="true"' app/src/main/AndroidManifest.xml
           grep -Fq 'fun appCatalogGuideBody(categories: Boolean)' app/src/main/java/it/motolink/app/MotoLinkLocale.kt
           grep -Fq 'https://mysterx92.github.io/motolink-faq/' app/src/main/java/it/motolink/app/MainActivity.kt
           grep -Fq 'https://mysterx92.github.io/motolink-privacy/' app/src/main/java/it/motolink/app/MainActivity.kt
@@ -96,13 +104,13 @@ jobs:
           "$BT/apksigner" verify --verbose --print-certs "$APK" > TEST_APKSIGNER.txt
           "$BT/aapt" dump badging "$APK" > TEST_BADGING.txt
           grep -Fq "package: name='it.motolink.app.preplaytest2'" TEST_BADGING.txt
-          grep -Fq "versionCode='39'" TEST_BADGING.txt
+          grep -Fq "versionCode='40'" TEST_BADGING.txt
           "$BT/zipalign" -c -P 16 -v 4 "$APK" > TEST_ZIPALIGN.txt
           sha256sum "$APK" > TEST_SHA256.txt
       - name: Upload test APK and checks (no private keys)
         uses: actions/upload-artifact@v4
         with:
-          name: MotoLink_V1_8_2_APP_Catalog_Guide_Play_TEST_APK_v39
+          name: MotoLink_V1_8_2_APP_Descriptions_Back_Play_TEST_APK_v40
           path: |
             src/app/build/outputs/apk/debug/app-debug.apk
             TEST_APKSIGNER.txt

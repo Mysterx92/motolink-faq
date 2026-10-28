@@ -17,7 +17,7 @@
     h1{font-size:clamp(25px,5vw,33px);line-height:1.2;margin:16px 0;color:var(--green)}
     p{color:var(--muted);margin:12px 0}
     .note{margin:28px 0 18px;padding:16px 18px;border:1px solid #31543b;background:#112418;border-radius:16px;color:#d9e9da;font-size:14px}
-    .hint{font-size:14px}
+    .hint{font-size:14px}.return-btn{display:block;margin:20px 0;padding:16px 18px;border-radius:15px;background:#84f176;color:#07120b;font-weight:850;text-decoration:none}.return-btn:focus-visible{outline:3px solid white;outline-offset:3px}
     .small{color:#93aa99;font-size:12px;margin-top:26px}
     .langs{display:flex;gap:6px;justify-content:center;margin-top:18px}
     .langs button{background:#10251a;color:#d9e9da;border:1px solid #355e40;border-radius:20px;padding:7px 13px;font-weight:700;cursor:pointer}
@@ -35,27 +35,29 @@
       <button type="button" data-lang="zh">中文</button>
     </div>
     <div class="heart" aria-hidden="true">♥</div>
-    <h1 id="title">Grazie per il tuo supporto! 💚</h1>
+    <h1 id="title">Grazie per la donazione! 💚</h1>
     <p id="body">Sei tornato dalla pagina PayPal. Grazie per aver pensato di sostenere il progetto MotoLink.</p>
     <div class="note" id="note">Questo ritorno non è una ricevuta né una conferma di pagamento: l'esito della donazione deve essere verificato separatamente.</div>
     <p id="hint" class="hint">Per continuare, torna all'app MotoLink dal tuo telefono. La riapertura diretta sarà disponibile in una futura versione TEST.</p>
-    <p><a href="motolink-test://donazione/ritorno">Apri MotoLink TEST dopo PayPal</a></p>
+    <p><a id="returnBtn" class="return-btn" href="motolink-test://donazione/ritorno">TORNA A MOTOLINK</a></p>
     <div class="small">MotoLink · <a href="../">FAQ</a> · <span id="privacy">Nessun dato di pagamento viene raccolto da questa pagina.</span></div>
   </main>
   <script>
     (() => {
       'use strict';
       const translations = {
-        it: ["Grazie per il tuo supporto! 💚","Sei tornato dalla pagina PayPal. Grazie per aver pensato di sostenere il progetto MotoLink.","Questo ritorno non è una ricevuta né una conferma di pagamento: l'esito della donazione deve essere verificato separatamente.","Per continuare, torna all'app MotoLink dal tuo telefono. La riapertura diretta sarà disponibile in una futura versione TEST.","Nessun dato di pagamento viene raccolto da questa pagina."],
-        en: ["Thank you for your support! 💚","You have returned from PayPal. Thank you for considering supporting the MotoLink project.","Returning here is not a receipt or proof of payment. Any donation must be verified separately.","To continue, reopen the MotoLink app on your phone. Direct app return will be added in a future TEST version.","This page does not collect payment information."],
-        ru: ["Спасибо за поддержку! 💚","Вы вернулись со страницы PayPal. Спасибо за желание поддержать проект MotoLink.","Возврат на эту страницу не является подтверждением оплаты. Пожертвование необходимо проверить отдельно.","Чтобы продолжить, откройте MotoLink на телефоне. Прямой возврат в приложение появится в будущей TEST-версии.","Эта страница не собирает платёжные данные."],
-        zh: ["感谢你的支持！💚","你已从 PayPal 页面返回。感谢你愿意支持 MotoLink 项目。","返回此页面不等于支付成功或付款凭证。捐赠结果需要另行核实。","请在手机上重新打开 MotoLink 应用。未来的测试版本将支持直接返回应用。","本页面不收集支付信息。"]
+        it: ["Grazie per la donazione! 💚","Sei tornato dalla pagina PayPal. Grazie per aver pensato di sostenere il progetto MotoLink.","Questo ritorno non è una ricevuta né una conferma di pagamento: l'esito della donazione deve essere verificato separatamente.","Per continuare, torna all'app MotoLink dal tuo telefono. La riapertura diretta sarà disponibile in una futura versione TEST.","Nessun dato di pagamento viene raccolto da questa pagina."],
+        en: ["Thank you for your donation! 💚","You have returned from PayPal. Thank you for considering supporting the MotoLink project.","Returning here is not a receipt or proof of payment. Any donation must be verified separately.","To continue, reopen the MotoLink app on your phone. Direct app return will be added in a future TEST version.","This page does not collect payment information."],
+        ru: ["Спасибо за пожертвование! 💚","Вы вернулись со страницы PayPal. Спасибо за желание поддержать проект MotoLink.","Возврат на эту страницу не является подтверждением оплаты. Пожертвование необходимо проверить отдельно.","Чтобы продолжить, откройте MotoLink на телефоне. Прямой возврат в приложение появится в будущей TEST-версии.","Эта страница не собирает платёжные данные."],
+        zh: ["感谢你的捐赠！💚","你已从 PayPal 页面返回。感谢你愿意支持 MotoLink 项目。","返回此页面不等于支付成功或付款凭证。捐赠结果需要另行核实。","请在手机上重新打开 MotoLink 应用。未来的测试版本将支持直接返回应用。","本页面不收集支付信息。"]
       };
       const ids=["title","body","note","hint","privacy"];
+      const buttonLabels={it:"TORNA A MOTOLINK",en:"RETURN TO MOTOLINK",ru:"ВЕРНУТЬСЯ В MOTOLINK",zh:"返回 MOTOLINK"};
       function show(lang) {
         if(!Object.prototype.hasOwnProperty.call(translations,lang)) lang="en";
         document.documentElement.lang=lang;
         ids.forEach((id,i)=>document.getElementById(id).textContent=translations[lang][i]);
+        document.getElementById("returnBtn").textContent=buttonLabels[lang];
         document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===lang)));
       }
       document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.lang)));

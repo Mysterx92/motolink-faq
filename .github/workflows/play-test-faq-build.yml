@@ -63,7 +63,6 @@ jobs:
           diff -u /dev/stdin /tmp/motolink_changes.txt <<'EOF'
           app/build.gradle.kts
           app/src/main/AndroidManifest.xml
-          app/src/main/java/it/motolink/app/DonationReturnActivity.kt
           app/src/main/java/it/motolink/app/MainActivity.kt
           app/src/main/java/it/motolink/app/MotoLinkLocale.kt
           app/src/main/java/it/motolink/app/TrofeoDashboardView.kt

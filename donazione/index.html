@@ -2,67 +2,145 @@
 <html lang="it">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#07110c">
+  <meta name="description" content="MotoLink ti ringrazia per il tuo sostegno. Torna all'app e richiedi, se desideri, l'adesivo MotoLink SOSTENITORE.">
   <meta name="robots" content="noindex,nofollow">
   <link rel="canonical" href="https://mysterx92.github.io/motolink-faq/donazione/">
-  <title>MotoLink | Ritorno da PayPal</title>
+  <title>MotoLink | Grazie di cuore</title>
   <style>
-    :root{color-scheme:dark;--bg:#07110c;--panel:#101c14;--line:#335a39;--green:#85f36c;--text:#f2f8f2;--muted:#b9cabe}
+    :root{
+      color-scheme:dark;
+      --bg:#050b07;--panel:#101a13;--lime:#7ef45b;--white:#f4f7f4;
+      --soft:#c4d0c5;--muted:#97a99b;--border:#35543c
+    }
     *{box-sizing:border-box}
-    body{margin:0;min-height:100svh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 50% 4%,#17341c 0%,var(--bg) 62%);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text)}
-    main{width:min(100%,520px);background:linear-gradient(150deg,#13231a,#09130e);border:1px solid var(--line);border-radius:26px;padding:32px 26px;text-align:center;box-shadow:0 25px 80px #0008}
-    .brand{font-weight:900;font-size:27px;font-style:italic;letter-spacing:-.04em}.brand span{color:var(--green)}
-    .heart{width:68px;height:68px;margin:28px auto 10px;display:grid;place-items:center;background:#1b3a24;border:1px solid #407848;border-radius:50%;color:var(--green);font-size:35px}
-    h1{font-size:clamp(25px,5vw,33px);line-height:1.2;margin:16px 0;color:var(--green)}
-    p{color:var(--muted);margin:12px 0}
-    .note{margin:28px 0 18px;padding:16px 18px;border:1px solid #31543b;background:#112418;border-radius:16px;color:#d9e9da;font-size:14px}
-    .hint{font-size:14px}.return-btn{display:block;margin:20px 0;padding:16px 18px;border-radius:15px;background:#84f176;color:#07120b;font-weight:850;text-decoration:none}.return-btn:focus-visible{outline:3px solid white;outline-offset:3px}
-    .small{color:#93aa99;font-size:12px;margin-top:26px}
-    .langs{display:flex;gap:6px;justify-content:center;margin-top:18px}
-    .langs button{background:#10251a;color:#d9e9da;border:1px solid #355e40;border-radius:20px;padding:7px 13px;font-weight:700;cursor:pointer}
-    .langs button[aria-pressed="true"]{color:#06130b;background:var(--green);border-color:var(--green)}
-    a{color:var(--green)}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;min-height:100svh;padding:30px 18px;display:grid;place-items:center;
+      color:var(--white);font:400 16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(ellipse 65% 38% at 50% 0%,#22472b 0%,transparent 80%),
+        radial-gradient(ellipse 70% 40% at 50% 100%,#0c2915 0%,transparent 80%),var(--bg)
+    }
+    body::before{
+      content:"";position:fixed;inset:0;pointer-events:none;opacity:.14;
+      background-image:radial-gradient(circle,#77ba83 1px,transparent 1.1px);
+      background-size:22px 22px;mask-image:linear-gradient(to bottom,transparent,#000 30%,#000 80%,transparent)
+    }
+    .card{
+      position:relative;isolation:isolate;width:min(100%,580px);
+      padding:28px clamp(22px,6vw,48px) 30px;text-align:center;
+      border:1px solid #507852;border-radius:28px;overflow:hidden;
+      background:linear-gradient(153deg,#17291b 0%,#0b150f 56%,#0b120d 100%);
+      box-shadow:0 24px 90px #000b,0 0 64px #56cf4920
+    }
+    .card::before{
+      content:"";position:absolute;top:0;left:12%;right:12%;height:2px;z-index:-1;
+      background:linear-gradient(90deg,transparent,#91ff6e,transparent)
+    }
+    .lang-switch{display:flex;justify-content:flex-end;gap:6px;margin-bottom:19px}
+    .lang-switch button{
+      color:#b8cbb8;background:#16271a;border:1px solid #426048;
+      border-radius:999px;padding:7px 11px;font-size:12px;font-weight:800;cursor:pointer;
+      min-width:39px
+    }
+    .lang-switch button[aria-pressed="true"]{color:#07150a;background:var(--lime);border-color:var(--lime)}
+    button:focus-visible,a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+    .brand{
+      margin:0 auto;display:inline-block;font-size:clamp(54px,12.7vw,79px);
+      font-weight:950;font-style:italic;letter-spacing:-.075em;line-height:1.07;
+      color:#f6f8f5;text-shadow:0 4px 18px #0009
+    }
+    .brand .green{color:var(--lime);text-shadow:0 0 20px #7ef45b50}
+    .underbrand{width:115px;height:3px;margin:15px auto 24px;border-radius:6px;
+      background:linear-gradient(90deg,transparent,var(--lime),transparent)}
+    .emblem{
+      display:grid;place-items:center;margin:0 auto 22px;width:76px;height:76px;
+      border-radius:50%;border:1px solid #6da668;
+      background:radial-gradient(circle at 35% 25%,#345738,#142a19 70%);
+      box-shadow:0 0 0 7px #5df45510,0 0 30px #7ef45b22;color:var(--lime);font-size:40px
+    }
+    .eyebrow{color:var(--lime);font-size:12px;letter-spacing:.16em;font-weight:850;text-transform:uppercase}
+    h1{
+      margin:9px auto 15px;max-width:460px;
+      font-size:clamp(26px,6.9vw,39px);font-weight:900;line-height:1.15;letter-spacing:-.035em
+    }
+    .lead{max-width:425px;margin:0 auto;color:#e5efe5;font-size:17px;line-height:1.6}
+    .support{max-width:435px;margin:14px auto 0;color:var(--soft);font-size:15px}
+    .return-btn{
+      display:flex;align-items:center;justify-content:center;gap:12px;
+      min-height:64px;padding:14px 20px;margin:28px 0 13px;border-radius:16px;
+      background:linear-gradient(180deg,#a3ff84,var(--lime));
+      color:#061009;font-size:17px;font-weight:950;letter-spacing:.015em;
+      text-decoration:none;box-shadow:0 9px 25px #67e25332,0 2px 0 #baff9f inset;
+      transition:transform .15s ease,box-shadow .15s ease
+    }
+    .return-btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px #67e25345}
+    .return-btn svg{flex:0 0 auto;width:20px;height:20px}
+    .help{color:var(--muted);font-size:13px;margin:0 auto;max-width:425px}
+    .disclaimer{
+      margin:25px 0 0;padding:14px 16px;border-radius:14px;
+      background:#112018;border:1px solid #36563c;color:#b9cbbb;
+      font-size:12.5px;line-height:1.5;text-align:left
+    }
+    .footer{color:#879c8c;font-size:12px;margin:22px 0 0}
+    .footer a{color:#a8dca3;text-decoration:none}
+    .footer a:hover{text-decoration:underline}
+    @media(max-width:380px){
+      .card{padding:22px 18px 25px;border-radius:22px}
+      .brand{font-size:clamp(49px,12vw,62px)}
+      h1{font-size:27px}.lead{font-size:15.5px}.return-btn{font-size:15.5px}
+    }
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
   </style>
 </head>
 <body>
-  <main>
-    <div class="brand">Moto<span>Link</span></div>
-    <div class="langs" role="group" aria-label="Language">
-      <button type="button" data-lang="it">IT</button>
-      <button type="button" data-lang="en">EN</button>
-      <button type="button" data-lang="ru">RU</button>
-      <button type="button" data-lang="zh">中文</button>
-    </div>
-    <div class="heart" aria-hidden="true">♥</div>
-    <h1 id="title">Grazie per la donazione! 💚</h1>
-    <p id="body">Sei tornato dalla pagina PayPal. Grazie per aver pensato di sostenere il progetto MotoLink.</p>
-    <div class="note" id="note">Questo ritorno non è una ricevuta né una conferma di pagamento: l'esito della donazione deve essere verificato separatamente.</div>
-    <p id="hint" class="hint">Per continuare, torna all'app MotoLink dal tuo telefono. La riapertura diretta sarà disponibile in una futura versione TEST.</p>
-    <p><a id="returnBtn" class="return-btn" href="motolink-test://donazione/ritorno">TORNA A MOTOLINK</a></p>
-    <div class="small">MotoLink · <a href="../">FAQ</a> · <span id="privacy">Nessun dato di pagamento viene raccolto da questa pagina.</span></div>
+  <main class="card">
+    <nav class="lang-switch" role="group" aria-label="Lingua / Language">
+      <button type="button" data-lang="it" aria-pressed="true">IT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+      <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+    </nav>
+    <div class="brand" aria-label="MotoLink">Moto<span class="green">Link</span></div>
+    <div class="underbrand" aria-hidden="true"></div>
+    <div class="emblem" aria-hidden="true">♥</div>
+    <div class="eyebrow" id="eyebrow">UN GESTO CHE CONTA</div>
+    <h1 id="title">GRAZIE PER LA DONAZIONE! 💚</h1>
+    <p class="lead" id="body">Grazie per aver scelto di sostenere MotoLink. Il tuo gesto dà forza a questo progetto, nato dalla passione per le moto.</p>
+    <p class="support" id="support">MotoLink continuerà a essere gratuita, senza pubblicità e senza abbonamenti.</p>
+    <a id="returnBtn" class="return-btn" href="motolink-test://donazione/ritorno">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M11 18h2"/></svg>
+      <span id="returnText">TORNA A MOTOLINK</span>
+    </a>
+    <p class="help" id="hint">Nell'app, se desideri, potrai richiedere l'adesivo MotoLink SOSTENITORE.</p>
+    <p class="disclaimer" id="note">Il ritorno a questa pagina non certifica il pagamento. Le donazioni sono verificate manualmente prima dell'eventuale spedizione dell'adesivo.</p>
+    <p class="footer">MotoLink · <a href="../">FAQ</a> · <span id="privacy">Questa pagina non raccoglie dati di pagamento.</span></p>
   </main>
   <script>
     (() => {
       'use strict';
-      const translations = {
-        it: ["Grazie per la donazione! 💚","Sei tornato dalla pagina PayPal. Grazie per aver pensato di sostenere il progetto MotoLink.","Questo ritorno non è una ricevuta né una conferma di pagamento: l'esito della donazione deve essere verificato separatamente.","Per continuare, torna all'app MotoLink dal tuo telefono. La riapertura diretta sarà disponibile in una futura versione TEST.","Nessun dato di pagamento viene raccolto da questa pagina."],
-        en: ["Thank you for your donation! 💚","You have returned from PayPal. Thank you for considering supporting the MotoLink project.","Returning here is not a receipt or proof of payment. Any donation must be verified separately.","To continue, reopen the MotoLink app on your phone. Direct app return will be added in a future TEST version.","This page does not collect payment information."],
-        ru: ["Спасибо за пожертвование! 💚","Вы вернулись со страницы PayPal. Спасибо за желание поддержать проект MotoLink.","Возврат на эту страницу не является подтверждением оплаты. Пожертвование необходимо проверить отдельно.","Чтобы продолжить, откройте MotoLink на телефоне. Прямой возврат в приложение появится в будущей TEST-версии.","Эта страница не собирает платёжные данные."],
-        zh: ["感谢你的捐赠！💚","你已从 PayPal 页面返回。感谢你愿意支持 MotoLink 项目。","返回此页面不等于支付成功或付款凭证。捐赠结果需要另行核实。","请在手机上重新打开 MotoLink 应用。未来的测试版本将支持直接返回应用。","本页面不收集支付信息。"]
+      const dict = {
+        it: ["UN GESTO CHE CONTA","GRAZIE PER LA DONAZIONE! 💚","Grazie per aver scelto di sostenere MotoLink. Il tuo gesto dà forza a questo progetto, nato dalla passione per le moto.","MotoLink continuerà a essere gratuita, senza pubblicità e senza abbonamenti.","TORNA A MOTOLINK","Nell'app, se desideri, potrai richiedere l'adesivo MotoLink SOSTENITORE.","Il ritorno a questa pagina non certifica il pagamento. Le donazioni sono verificate manualmente prima dell'eventuale spedizione dell'adesivo.","Questa pagina non raccoglie dati di pagamento."],
+        en: ["YOUR SUPPORT MATTERS","THANK YOU FOR YOUR DONATION! 💚","Thank you for choosing to support MotoLink. Your kindness helps this motorcycle passion project grow.","MotoLink will remain free, with no ads and no subscriptions.","RETURN TO MOTOLINK","If you wish, you can request a MotoLink SOSTENITORE sticker in the app.","Returning to this page does not confirm a payment. Donations are verified manually before any sticker shipment.","This page does not collect payment information."],
+        ru: ["ВАША ПОДДЕРЖКА ВАЖНА","СПАСИБО ЗА ПОЖЕРТВОВАНИЕ! 💚","Спасибо, что решили поддержать MotoLink. Ваша помощь развивает проект, созданный из любви к мотоциклам.","MotoLink останется бесплатным, без рекламы и подписок.","ВЕРНУТЬСЯ В MOTOLINK","При желании в приложении можно запросить наклейку MotoLink SOSTENITORE.","Возврат на эту страницу не подтверждает оплату. Перед отправкой наклейки пожертвование проверяется вручную.","Эта страница не собирает платёжные данные."],
+        zh: ["感谢你的支持","感谢你的捐赠！💚","感谢你选择支持 MotoLink。你的心意帮助这个源于摩托车热爱的项目继续成长。","MotoLink 将保持免费，无广告、无订阅。","返回 MOTOLINK","如有需要，可在应用内申请 MotoLink SOSTENITORE 贴纸。","返回此页面不代表付款已经完成。寄送贴纸前将人工核实捐赠。","本页面不收集支付信息。"]
       };
-      const ids=["title","body","note","hint","privacy"];
-      const buttonLabels={it:"TORNA A MOTOLINK",en:"RETURN TO MOTOLINK",ru:"ВЕРНУТЬСЯ В MOTOLINK",zh:"返回 MOTOLINK"};
-      function show(lang) {
-        if(!Object.prototype.hasOwnProperty.call(translations,lang)) lang="en";
+      const ids = ["eyebrow","title","body","support","returnText","hint","note","privacy"];
+      function render(lang){
+        if(!Object.prototype.hasOwnProperty.call(dict,lang)) lang="en";
         document.documentElement.lang=lang;
-        ids.forEach((id,i)=>document.getElementById(id).textContent=translations[lang][i]);
-        document.getElementById("returnBtn").textContent=buttonLabels[lang];
-        document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===lang)));
+        ids.forEach((id,i)=>{document.getElementById(id).textContent=dict[lang][i];});
+        document.querySelectorAll("[data-lang]").forEach(b=>
+          b.setAttribute("aria-pressed",String(b.dataset.lang===lang))
+        );
       }
-      document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.lang)));
-      const lang=(navigator.language||"it").toLowerCase();
-      show(lang.startsWith("it")?"it":lang.startsWith("ru")?"ru":lang.startsWith("zh")?"zh":"en");
+      document.querySelectorAll("[data-lang]").forEach(b=>
+        b.addEventListener("click",()=>render(b.dataset.lang))
+      );
+      const language=(navigator.language||"it").toLowerCase();
+      render(language.startsWith("it")?"it":language.startsWith("ru")?"ru":language.startsWith("zh")?"zh":"en");
     })();
   </script>
 </body>

@@ -5,7 +5,7 @@ on:
     branches:
       - ci/motolink-play-release-telegram-v1
     paths:
-      - '.github/workflows/motolink-play-release-aab-v1.yml'
+      - '.github/workflows/motolink-play-release-telegram-v1.yml'
       - 'ci/patch_play_telegram_v1.py'
   workflow_dispatch:
 
